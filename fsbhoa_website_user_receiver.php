@@ -252,6 +252,10 @@ class Fsbhoa_Website_User_Receiver {
             $existing_user = get_user_by( 'email', $email );
 
             if ( $existing_user ) {
+            $current_first = $existing_user->first_name;
+            $current_last  = $existing_user->last_name;
+
+            if ( $current_first !== $first_name || $current_last !== $last_name ) {
                 $update_data = [
                     'ID'         => $existing_user->ID,
                     'first_name' => $first_name,
@@ -266,6 +270,12 @@ class Fsbhoa_Website_User_Receiver {
                     update_user_meta( $user_id, 'fsbhoa_last_sync', $sync_timestamp );
                 }
             } else {
+                // Nothing changed! Just touch the watermark and timestamp.
+                if ( ! empty( $ac_id ) ) update_user_meta( $existing_user->ID, 'fsbhoa_local_ac_id', $ac_id );
+                update_user_meta( $existing_user->ID, 'fsbhoa_last_sync', $sync_timestamp );
+                $updated++;
+            }
+        } else {
                 $insert_data = [
                     'user_email' => $email,
                     'first_name' => $first_name,
