@@ -25,7 +25,7 @@ echo "Packaging ${PLUGIN_NAME} into ${ZIP_FILE}..."
 zip -r "${ZIP_FILE}" "${PLUGIN_NAME}" \
     -x "${PLUGIN_NAME}/.git*" \
     -x "${PLUGIN_NAME}/*~" \
-    -x "${PLUGIN_NAME}/build-zip.sh" \
+    -x "${PLUGIN_NAME}/build_zip.sh" \
     -x "${PLUGIN_NAME}/.DS_Store" \
     -x "${PLUGIN_NAME}/*.swp"
 
